@@ -99,7 +99,6 @@ def mainWorker(directory, link, getDecklists, getRoster):
 								iRoundsFromUrl = int(sp[len(sp)-1])
 								standing.level = str(aria['aria-controls'])
 
-				#iRoundsFromUrl = 13
 				roundsSet = False
 				standing.currentRound = iRoundsFromUrl
 
@@ -146,6 +145,10 @@ def mainWorker(directory, link, getDecklists, getRoster):
 						p2late = 0
 						scores1 = []
 						scores2 = []
+						p1 = None
+						p2 = None
+						addP1 = True
+						addP2 = True
 						table = "0"
 						table1 = match_data.find('div', attrs={'class':'col-2'})
 						if table1 != None:
@@ -157,10 +160,7 @@ def mainWorker(directory, link, getDecklists, getRoster):
 							
 							name = player_data.find_all('span', attrs={'class':'name'})
 							if(len(name) > 0):
-								score = textData[3]
-								score = score.strip()
-								score = score.replace('(', '')
-								score = score.replace(')', '')
+								score = textData[3].strip().replace('(', '').replace(')', '')
 								scores1 = re.split('-', score)
 								player1 = re.sub('\s+',' ', name[0].text)
 								if(str(player_data).find(" dropped") != -1):
@@ -182,10 +182,7 @@ def mainWorker(directory, link, getDecklists, getRoster):
 							textData = player_data.text.split("\n")
 							name = player_data.find_all('span', attrs={'class':'name'})
 							if(len(name) > 0):
-								score = textData[3]
-								score = score.strip()
-								score = score.replace('(', '')
-								score = score.replace(')', '')
+								score = textData[3].strip().replace('(', '').replace(')', '')
 								scores2 = re.split('-', score)
 								player2 = re.sub('\s+',' ', name[0].text)
 								if(str(player_data).find(" dropped") != -1):
@@ -202,11 +199,6 @@ def mainWorker(directory, link, getDecklists, getRoster):
 										if(iRounds == 0):
 											p2late = -1
 						
-						p1 = None
-						p2 = None
-						addP1 = True
-						addP2 = True						
-
 						if(len(player1) > 0):								
 							for player in filter(lambda y: y.name == player1, standing.players):
 								if(p1status == -1 and (player.wins == int(scores1[0]) and player.losses == int(scores1[1]) and player.ties == int(scores1[2]))):
@@ -451,8 +443,6 @@ def mainWorker(directory, link, getDecklists, getRoster):
 							
 					jsonExportTables.write((']}').encode())
 			
-			
-
 			countries = []
 			for player in standing.players:
 				countries.append(player.country)
