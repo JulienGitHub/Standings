@@ -550,7 +550,7 @@ if __name__ == "__main__":
 	starttime = time.time()
 	while True:
 		try:
-			mainWorker(args.id, args.url, args.roster, args.decklists)
+			mainWorker(args.id, args.url, args.decklists, args.roster)
 		except Exception as e:
 			print(e)
 		time.sleep(240.0 - ((time.time() - starttime) % 120.0))
