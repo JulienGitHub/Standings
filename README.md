@@ -24,7 +24,10 @@ Some parts could probably be optimized, most parts are probably looking bad code
 
 
 "pip install beautifulsoup4" for the Beautiful Soup library (for pulling data out of HTML and XML files)
+
 "pip install regex" for the regex library
+
 "pip install unicodedata2" for the unicode library
+
 
 I hope I am not missing any other library needed, and I hope these are the right commands. A simple Google search with any missing import should bring you the solution.
