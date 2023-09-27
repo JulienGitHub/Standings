@@ -44,7 +44,7 @@ def mainWorker(directory, link, getDecklists, getRoster):
 	try:
 		url = 'https://rk9.gg/tournament/' + link
 		page = requests.get(url)
-		soup = BeautifulSoup(page.content, "html.parser")
+		soup = BeautifulSoup(page.content, "lxml")
 
 		pageTitle = soup.find('h3', {'class': 'mb-0'}).text
 		title = pageTitle.split('\n')[0]
@@ -87,7 +87,7 @@ def mainWorker(directory, link, getDecklists, getRoster):
 					lastPageLoaded = url
 					page = requests.get(url)
 					#page content to BeautifulSoup
-					soup = BeautifulSoup(page.content, "html.parser")
+					soup = BeautifulSoup(page.content, "lxml")
 
 				#finding out how many rounds on the page							
 				iRoundsFromUrl = 0
