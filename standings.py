@@ -120,7 +120,6 @@ def mainWorker(directory, link, getDecklists, getRoster):
 							player += data[i]
 						publishedStandings.append(player.replace('  ', ' '))
 
-				publishedStandings = []
 				jsonExportTables = open(standing.directory + standing.tournamentDirectory + "tables.json", 'wb')
 				jsonExportTables.write(('[').encode())
 
