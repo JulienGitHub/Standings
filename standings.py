@@ -247,25 +247,26 @@ def mainWorker(directory, link, getDecklists, getRoster):
 							counter += 1
 						if(len(result)> 0):
 							for player in result:
-								if(p2status == -1 and (player.wins == scores2[0] and player.losses == scores2[1] and player.ties == scores2[2])):
-									p2 = player
-								else:
-									if(p2status == 0 and (player.wins == scores2[0] and player.losses + 1 == scores2[1] and player.ties == scores2[2])):
+								if(player != p1):
+									if(p2status == -1 and (player.wins == scores2[0] and player.losses == scores2[1] and player.ties == scores2[2])):
 										p2 = player
 									else:
-										if(p2status == 1 and (player.wins == scores2[0] and player.losses == scores2[1] and player.ties + 1 == scores2[2])):
+										if(p2status == 0 and (player.wins == scores2[0] and player.losses + 1 == scores2[1] and player.ties == scores2[2])):
 											p2 = player
 										else:
-											if(p2status == 2 and (player.wins + 1 == scores2[0] and player.losses == scores2[1] and player.ties == scores2[2])):
+											if(p2status == 1 and (player.wins == scores2[0] and player.losses == scores2[1] and player.ties + 1 == scores2[2])):
 												p2 = player
-								if(p2dropped):
-									if(p2 == None):
-										if(player.wins == scores2[0] and player.losses == scores2[1] and player.ties == scores2[2]):
-											p2 = player
+											else:
+												if(p2status == 2 and (player.wins + 1 == scores2[0] and player.losses == scores2[1] and player.ties == scores2[2])):
+													p2 = player
+									if(p2dropped):
+										if(p2 == None):
+											if(player.wins == scores2[0] and player.losses == scores2[1] and player.ties == scores2[2]):
+												p2 = player
+										if(p2):
+											p2.dropRound = iRounds+1
 									if(p2):
-										p2.dropRound = iRounds+1
-								if(p2):
-									break
+										break
 
 
 						if(not p1):
