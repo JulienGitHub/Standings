@@ -294,7 +294,7 @@ def mainWorker(directory, link, getDecklists, getRoster):
 						if(p2):
 							p2.addMatch(p1, p2status, p2dropped, iRounds+1 > standing.roundsDay1, iRounds+1 > standing.roundsDay2, table)
 						
-						if(p1 != None and p2 != None):
+						if(p1 != None):
 							if(not firstTableData):
 								jsonExportTables.write((',').encode())
 							jsonExportTables.write(('{').encode())
@@ -328,7 +328,10 @@ def mainWorker(directory, link, getDecklists, getRoster):
 								jsonExportTables.write(('"W"').encode())
 							if(p2status == -1):
 								jsonExportTables.write(('null').encode())
-							jsonExportTables.write((',"record":{"wins":' + str(p2.wins) + ',"losses":' + str(p2.losses) + ',"ties":' + str(p2.ties) + '}}').encode())
+							if(p2 != None):
+								jsonExportTables.write((',"record":{"wins":' + str(p2.wins) + ',"losses":' + str(p2.losses) + ',"ties":' + str(p2.ties) + '}}').encode())
+							else:
+								jsonExportTables.write((',"record":{}}').encode())
 							jsonExportTables.write((']').encode())
 							jsonExportTables.write(('}').encode())
 							firstTableData = False
