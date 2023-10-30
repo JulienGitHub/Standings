@@ -162,7 +162,9 @@ def mainWorker(directory, link, getDecklists, getRoster):
 						if tableData:
 							tableData = tableData.find('span', attrs={'class':'tablenumber'})
 							if tableData:
-								table = tableData.text								
+								table = tableData.text
+							else:
+								table = "0"
 						player_data = match_data.find('div', attrs={'class':'player1'})
 						textData = player_data.text.split("\n")
 						name = player_data.find('span', attrs={'class':'name'})
