@@ -102,7 +102,7 @@ def mainWorker(directory, link, getDecklists, getRoster):
 				roundsSet = False
 				standing.currentRound = iRoundsFromUrl
 
-				roundsDATA = soup.find_all("div", id=lambda value: value and value.startswith(standing.level + "R"))
+				#roundsDATA = soup.find_all("div", id=lambda value: value and value.startswith(standing.level + "R"))
 
 				rounds.append(iRoundsFromUrl)
 
@@ -139,7 +139,13 @@ def mainWorker(directory, link, getDecklists, getRoster):
 					if(iRounds > 0):
 						jsonExportTables.write((',').encode())
 					jsonExportTables.write(('{"tables":[').encode())
-					round_data = roundsDATA[iRounds]
+					#round_data = roundsDATA[iRounds]
+
+					urlRound = 'https://rk9.gg/pairings/' + link + '?pod='+standing.level.replace('P', '')+'&rnd='+str(iRounds+1)
+					with requests.Session() as s:
+						page = s.get(urlRound)
+					round_data = BeautifulSoup(page.content, "lxml")
+					
 					matches = round_data.find_all('div', attrs={'class':'match'})
 					stillPlaying = 0
 					for match_data in matches:							
