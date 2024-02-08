@@ -111,16 +111,17 @@ def mainWorker(directory, link, getDecklists, getRoster):
 				standingPublishedData = soup.find('div', attrs={'id':strToFind})
 				publishedStandings = []
 				if(standingPublishedData):
-					standingPublished = [y for y in [x.strip() for x in standingPublishedData.text.split('\n')] if y]
+					standingPublished = standingPublishedData.contents
 					for line in standingPublished:
-						data = line.split(' ')
-						pos = data[0].replace('.', '')
-						player = ''
-						for i in range(1, len(data)):
-							if(i > 1):
-								player += ' '
-							player += data[i]
-						publishedStandings.append(player.replace('  ', ' '))
+						if(len(line.text) > 0):
+							data = line.strip().split(' ')
+							pos = data[0].replace('.', '')
+							player = ''
+							for i in range(1, len(data)):
+								if(i > 1):
+									player += ' '
+								player += data[i]
+							publishedStandings.append(player.replace('  ', ' '))
 
 				jsonExportTables = open(standing.directory + standing.tournamentDirectory + "tables.json", 'wb')
 				jsonExportTables.write(('[').encode())
@@ -172,10 +173,14 @@ def mainWorker(directory, link, getDecklists, getRoster):
 						player_data = match_data.find('div', attrs={'class':'player1'})
 						textData = player_data.text.split("\n")
 						name = player_data.find('span', attrs={'class':'name'})
-						if(name):
-							score = textData[3].strip().replace('(', '').replace(')', '')
-							scores1 = list(map(int, re.split('-', score)))
-							player1Name = re.sub('\s+',' ', name.text)
+						if(player_data.contents and len(player_data.contents)>1 and len(name) > 0):
+							score = player_data.contents[1].strip().replace('(', '').replace(')', '')
+							scores1 = list(map(int, re.split('-', score.split( )[0])))
+							try:
+								pName = name.text.encode('mac-roman').decode('utf-8')
+							except:
+								pName = name.text
+							player1Name = re.sub('\s+',' ', pName)
 							pdataText = str(player_data)
 							if(pdataText.find(" winner") != -1):
 								p1status = 2
@@ -197,10 +202,14 @@ def mainWorker(directory, link, getDecklists, getRoster):
 						player_data = match_data.find('div', attrs={'class':'player2'})
 						textData = player_data.text.split("\n")
 						name = player_data.find('span', attrs={'class':'name'})
-						if(name):
-							score = textData[3].strip().replace('(', '').replace(')', '')
-							scores2 = list(map(int, re.split('-', score)))
-							player2Name = re.sub('\s+',' ', name.text)
+						if(player_data.contents and len(player_data.contents)>1 and len(name) > 0):
+							score = player_data.contents[1].strip().replace('(', '').replace(')', '')
+							scores2 = list(map(int, re.split('-', score.split( )[0])))
+							try:
+								pName = name.text.encode('mac-roman').decode('utf-8')
+							except:
+								pName = name.text
+							player2Name = re.sub('\s+',' ', pName)
 							pdataText = str(player_data)
 							if(pdataText.find(" winner") != -1):
 								p2status = 2
@@ -217,7 +226,6 @@ def mainWorker(directory, link, getDecklists, getRoster):
 									p2status = 0
 									if(iRounds == 0):
 										p2late = -1
-
 						result = []
 						counter = 0
 						while(player1Name+'#'+str(counter) in playersDictionnary):
